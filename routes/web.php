@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Task;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,21 +15,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('home');
 });
 
-Route::post('/tasks/create', function () {
-    return view('create-task');
-})->name('tasks.create');
+Route::get('/tasks', function () {
+    return view('index', [
+        'tasks' => Task::oldest()->paginate(12)
+    ]);
+})->name('tasks.index');
 
-Route::post('/tasks/store', function() {
+Route::view('/tasks/create', 'create-task')
+    ->name('tasks.create');
+
+Route::get('/tasks/{task}', function (Task $task) {
+    return view('task', ['task' => $task]);
+})->name('tasks.show');
+
+Route::post('/tasks/store', function () {
     return view('tasks');
 })->name('tasks.store');
 
-Route::get('/tasks/{task}', function(Task $task){
-    return view('task');
-})->name('task.show');
-
-Route::put('/tasks/{task}', function(Task $task){
+Route::put('/tasks/{task}', function (Task $task) {
     return view('edit-task');
-})->name('task.edit');
+})->name('tasks.edit');
+
+Route::delete('/tasks/{task}', function (Task $task) {
+    return view('edit-task');
+})->name('tasks.destroy');
