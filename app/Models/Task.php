@@ -11,6 +11,8 @@ class Task extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public $guarded = [];
+
     public function toggleComplete() {
         $this->completed = !$this->completed;
         return $this->completed;

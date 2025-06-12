@@ -14,6 +14,15 @@
             <li class="underline hover:decoration-blue-600"><a href="/tasks/create">Add Task</a></li>
         </ul>
     </nav>
+    <h1 class="text-2xl font-bold m-5">
+        @yield('title')
+    </h1>
+
+    <div class="w-1/2 ml-5">
+        @if (session()->has('success'))
+        <p class="bg-green-100 text-green-400 p-2 rounded-lg">{{session('success')}}</p>
+        @endif
+    </div>
 
     @yield('content')
     
